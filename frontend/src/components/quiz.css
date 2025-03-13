@@ -1,0 +1,112 @@
+/* Center the quiz container */
+.quiz-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+/* Style the heading */
+.quiz-container h2 {
+  font-size: 22px;
+  color: #333;
+}
+
+/* Display the question count */
+.quiz-container p {
+  font-size: 18px;
+  color: #555;
+}
+
+/* Options list */
+.options-list {
+  list-style: none;
+  padding: 0;
+}
+
+/* Style each option */
+.option {
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #444;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.option:hover {
+  background-color: #e0e0e0;
+}
+
+/* Correct and incorrect answer styling */
+.option.correct {
+  background-color: lightgreen !important;
+  color: white;
+  font-weight: bold;
+}
+
+.option.incorrect {
+  background-color: red !important;
+  color: white;
+  font-weight: bold;
+}
+
+/* Button styling */
+.next-btn,
+.submit-btn,
+.restart-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.next-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.restart-btn {
+  background-color: #ff6347;
+}
+
+.submit-btn {
+  background-color: #28a745;
+}
+
+.next-btn:hover,
+.submit-btn:hover,
+.restart-btn:hover {
+  opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .quiz-container {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .option {
+    font-size: 14px;
+  }
+
+  .next-btn,
+  .submit-btn,
+  .restart-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}

@@ -1,0 +1,124 @@
+/* General styles */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    min-height: 100vh; /* Ensure the container takes full height */
+    overflow-y: auto; /* Enable scrolling */
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Selection container */
+.selection-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.selection-container label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.selection-container select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.selection-container button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.selection-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Questions container */
+.questions-container {
+    margin-top: 20px;
+    max-height: 70vh; /* Limit height and enable scrolling */
+    overflow-y: auto;
+}
+
+.question {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.question p {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.question ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.question li {
+    margin: 5px 0;
+}
+
+.question input[type="radio"] {
+    margin-right: 10px;
+}
+
+/* Submit button */
+.submit-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #218838;
+}
+
+/* Result section */
+.result {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.result h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.result p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Loading and error messages */
+p {
+    text-align: center;
+    color: #555;
+}
