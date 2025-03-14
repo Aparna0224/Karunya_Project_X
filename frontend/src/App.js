@@ -30,7 +30,7 @@ function App() {
             <Route path="/course/:courseName/:moduleId" element={<Course />} />
             <Route path="/course/:courseName/:moduleId/quiz" element={<Quiz />} />
             <Route path="*" element={<Navigate to="/survey" />} />
-          </>
+          </>  
         ) : (
           <Route path="*" element={<Navigate to="/login" />} />
         )}

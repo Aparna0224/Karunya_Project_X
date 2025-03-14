@@ -1,112 +1,141 @@
-/* Center the quiz container */
-.quiz-container {
-  max-width: 600px;
-  margin: 40px auto;
-  padding: 20px;
-  border: 2px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+/* General Styles */
+body {
   font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #f9f9f9;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
 }
 
-/* Style the heading */
-.quiz-container h2 {
-  font-size: 22px;
+.quiz-container {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+p {
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Options List */
+.options-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.option-item:hover {
+  background-color: #e9e9e9;
+  transform: scale(1.02);
+}
+
+/* Selected option before confirmation */
+.option-item.selected {
+  background-color: #ffeb3b;  /* Yellow highlight */
+  border-color: #ffc107;
   color: #333;
 }
 
-/* Display the question count */
-.quiz-container p {
-  font-size: 18px;
-  color: #555;
+/* Correct answer */
+.option-item.correct {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
 }
 
-/* Options list */
-.options-list {
-  list-style: none;
-  padding: 0;
+/* Incorrect answer */
+.option-item.incorrect {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
 }
 
-/* Style each option */
-.option {
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #444;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 16px;
-  background-color: #fff;
-}
-
-.option:hover {
-  background-color: #e0e0e0;
-}
-
-/* Correct and incorrect answer styling */
-.option.correct {
-  background-color: lightgreen !important;
-  color: white;
-  font-weight: bold;
-}
-
-.option.incorrect {
-  background-color: red !important;
-  color: white;
-  font-weight: bold;
-}
-
-/* Button styling */
-.next-btn,
-.submit-btn,
-.restart-btn {
+/* Buttons */
+button {
   background-color: #007bff;
   color: white;
-  padding: 12px 20px;
   border: none;
   border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  margin-top: 15px;
-  transition: 0.3s;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
 }
 
-.next-btn:disabled {
-  background-color: #ccc;
+button:hover {
+  background-color: #0056b3;
+}
+
+button:disabled {
+  background-color: #cccccc;
   cursor: not-allowed;
 }
 
-.restart-btn {
-  background-color: #ff6347;
-}
-
-.submit-btn {
+.next-btn {
   background-color: #28a745;
 }
 
-.next-btn:hover,
-.submit-btn:hover,
-.restart-btn:hover {
-  opacity: 0.8;
+.next-btn:hover {
+  background-color: #218838;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .quiz-container {
-    width: 90%;
-    padding: 15px;
-  }
-  
-  .option {
-    font-size: 14px;
-  }
+.restart-btn {
+  background-color: #dc3545;
+}
 
-  .next-btn,
-  .submit-btn,
-  .restart-btn {
-    font-size: 14px;
-    padding: 10px;
-  }
+.restart-btn:hover {
+  background-color: #c82333;
+}
+
+/* Quiz Conclusion */
+.quiz-conclusion {
+  text-align: center;
+}
+
+.review-section {
+  margin-top: 1.5rem;
+}
+
+.review-item {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0;
+  text-align: left;
+}
+
+.review-item p {
+  margin: 0.5rem 0;
+}
+
+.review-item strong {
+  color: #333;
 }
