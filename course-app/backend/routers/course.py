@@ -24,7 +24,6 @@ def generate_topic_brief(topic: str) -> str:
         "It fosters a blend of creativity and analytical thinking, empowering learners to develop solutions for complex challenges. Overall, this subject equips "
         "students with essential technical skills while inspiring them to explore and innovate in various technological fields."
     )
-
 @router.post("/generate-course")
 def generate_course(
     title: str = Query(..., description="The course topic (e.g., 'Python')"),
@@ -42,7 +41,11 @@ def generate_course(
     """
     # Generate detailed module-wise course content using the AI service.
     content = generate_course_content(title, level)
-    
+
+    # Check if content contains an error
+    if "error" in content:
+        return {"error": content["error"], "raw_response": content["raw"]}
+
     # Structure the course content and add a detailed topic explanation.
     structured_content = {
         "course_title": title,
@@ -52,9 +55,13 @@ def generate_course(
     }
     
     # Process each module from the AI-generated content.
-    for module_id, module_data in content.items():
+    for module_data in content["modules"]:
+        if not isinstance(module_data, dict):
+            print("Invalid module format detected:", module_data)  # Debugging
+            continue  # Skip incorrect modules
+
         structured_content["modules"].append({
-            "module_number": module_id,
+            "module_name": module_data.get("module_name", "Unnamed Module"),
             "module_overview": module_data.get("module_overview", ""),
             "content_list": module_data.get("content_list", [])
         })
@@ -68,6 +75,7 @@ def generate_course(
     courses.append(new_course)
     
     return {"message": "Course generated successfully", "course": new_course}
+
 
 @router.get("/list")
 def list_courses():

@@ -23,13 +23,19 @@ def generate_course_content(topic: str, level: str) -> dict:
     Ensures the response is properly formatted as JSON with 6 detailed modules.
     """
     prompt = (
-        f"Create a structured course on {topic} for {level} learners. "
-        "The course must contain exactly 6 modules. "
-        "Return the output as a JSON object with keys from \"1\" to \"6\". "
-        "Each module should have: "
-        "\"module_overview\" - a detailed summary (at least 1000 words). "
-        "\"content_list\" - an array where each topic has a 200+ word explanation. "
-        "STRICTLY return only valid JSON output, without additional text."
+        f'Generate a structured course on "{topic}" for "{level}" learners in JSON format.\n\n'
+        "### **Course Structure Requirements:**\n"
+        "- The course must contain exactly **6 modules**, stored in a JSON array under the key \"modules\".\n"
+        "- Each module must include:\n"
+        "  - \"module_name\": A clear module title.\n"
+        "  - \"module_overview\": A **900-1200 word** summary.\n"
+        "  - \"content_list\": A **minimum of 5 subtopics**, each with:\n"
+        "    - \"topic_name\": The title.\n"
+        "    - \"description\": A **detailed explanation**.\n"
+        "    - \"example_code\": Python code (if applicable).\n"
+        "    - \"code_explanation\": A **breakdown** of the code.\n"
+        "  - \"practice_questions\": At least **4 practice questions**.\n\n"
+        "STRICTLY return only valid JSON output, without any additional text."
     )
     
     response = ollama.chat(model="deepseek-r1:7b", messages=[{"role": "user", "content": prompt}])
@@ -40,15 +46,29 @@ def generate_course_content(topic: str, level: str) -> dict:
     
     try:
         course_json = json.loads(cleaned_content)
-        
-        # Ensure structured output with 6 modules
-        if len(course_json) != 6 or not all(str(i) in course_json for i in range(1, 7)):
+
+        # Ensure structured output contains "modules" key
+        if not isinstance(course_json, dict) or "modules" not in course_json:
+            print("Invalid JSON received:", cleaned_content)  # Debugging
             return {"error": "Invalid course structure received", "raw": cleaned_content}
-        
+
+        # Ensure exactly 6 modules
+        if not isinstance(course_json["modules"], list) or len(course_json["modules"]) != 6:
+            print("Unexpected module count:", cleaned_content)  # Debugging
+            return {"error": "Expected exactly 6 modules, but received a different number", "raw": cleaned_content}
+
+        # Ensure each module is a dictionary
+        for module in course_json["modules"]:
+            if not isinstance(module, dict):
+                print("Invalid module structure:", cleaned_content)  # Debugging
+                return {"error": "Module data is incorrectly formatted", "raw": cleaned_content}
+
     except json.JSONDecodeError as e:
+        print("JSON parsing error:", e)  # Debugging
         return {"error": f"Failed to parse JSON: {e}", "raw": cleaned_content}
     
     return course_json
+
 
 def generate_quiz_content(topic: str) -> dict:
     """
