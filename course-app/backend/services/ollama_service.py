@@ -31,7 +31,7 @@ def generate_course_content(topic: str, level: str) -> dict:
         "  - \"module_overview\": A **900-1200 word** summary.\n"
         "  - \"content_list\": A **minimum of 5 subtopics**, each with:\n"
         "    - \"topic_name\": The title.\n"
-        "    - \"description\": A **detailed explanation**.\n"
+        "    - \"description\": A **detailed explanation **.\n"
         "    - \"example_code\": Python code (if applicable).\n"
         "    - \"code_explanation\": A **breakdown** of the code.\n"
         "  - \"practice_questions\": At least **4 practice questions**.\n\n"
