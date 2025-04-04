@@ -36,7 +36,7 @@ vLearn is an AI-powered personal tutor that leverages advanced machine learning 
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/your-repo.git
+git clone https://github.com/Aparna0224/Karunya_Project_X.git
 cd your-repo
 ```
 
@@ -116,7 +116,7 @@ This document outlines the complete implementation steps and architecture of the
 - Collected information from reliable sources like GitHub repositories, MOOCs, and documentation.
 - Structured the collected data into six primary modules for each subject.
 - Each module contains 5–6 subtopics, making the content manageable and learner-friendly.
-- Content was written in `.txt` files for easy formatting, readability, and storage in MongoDB.
+- Content was written in `.md` files for easy formatting, readability, and storage in MongoDB.
 
 ---
 
@@ -158,7 +158,7 @@ This document outlines the complete implementation steps and architecture of the
 - Frontend sends user data and course context to the backend.
 - Backend forwards the request to the model and receives generated MCQs.
 - MongoDB stores:
-  - Course `.txt` files
+  - Course `.md` files
   - User progress and scores
   - Generated MCQs per user
 - Used MongoDB Atlas (cloud-based cluster) for seamless integration and scalability.
@@ -197,6 +197,30 @@ This document outlines the complete implementation steps and architecture of the
 ### d. Coding Tests and Interactive Games
 - Include real-time coding environments for hands-on practice.
 - Develop interactive quizzes and games to make learning fun and effective.
+
+---
+
+## 8. Model Optimization with OpenVINO IR
+
+**Framework:** OpenVINO Toolkit (Intel)
+
+### Purpose:
+To optimize the performance of the fine-tuned T5 model for deployment on edge devices or in resource-constrained environments.
+
+### Steps:
+1. Converted the fine-tuned T5 model to **ONNX** format using `transformers` and `onnxruntime`.
+2. Used **OpenVINO Model Optimizer** to convert the ONNX model to **Intermediate Representation (IR)** format.
+   - IR includes `.xml` and `.bin` files representing the model structure and weights.
+3. Deployed the model using **OpenVINO Inference Engine** for:
+   - Faster inference speed
+   - Lower latency
+   - Efficient CPU usage
+4. Integrated OpenVINO runtime into the backend service to serve optimized model predictions.
+
+### Benefits:
+- Enhanced performance on Intel hardware (CPUs, VPUs, integrated GPUs)
+- Reduced model size and faster load times
+- Cost-effective inference on low-resource machines
 
 ---
 
