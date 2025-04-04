@@ -7,10 +7,10 @@ function ContactPage() {
       <p>Reach out to us for any queries or support.</p>
       <div className="contact-info">
         <p className="contact-item">
-          📞 Phone: <span>+91 98404 88355</span>
+          📞 Phone: <span>+91 63801 63817</span>
         </p>
         <p className="contact-item">
-          ✉️ Email: <span>Davidjayaraj@karunya.edu.in</span>
+          ✉️ Email: <span>jerwintitus@karunya.edu.in</span>
         </p>
       </div>
     </div>

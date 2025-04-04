@@ -1,57 +1,97 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import "./LessonPage.css";
 
 function LessonPage() {
   const [searchParams] = useSearchParams();
-  const course = searchParams.get("course") || "Unknown Course";
-  const level = searchParams.get("level") || "Unknown Level";
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Get course and level from either searchParams or location.state (if redirected back from ModuleCheck)
+  const course = location.state?.course || searchParams.get("course") || "Unknown Course";
+  const level = location.state?.level || searchParams.get("level") || "Unknown Level";
+  const initialIndex = location.state?.moduleIndex || 0;
+
+  const [moduleIndex, setModuleIndex] = useState(initialIndex);
   const [content, setContent] = useState("Loading content...");
 
-  useEffect(() => {
-    let filePath = "";
-
+  const getModulePaths = () => {
     const courseLower = course.toLowerCase();
     const levelLower = level.toLowerCase();
 
     if (courseLower === "java") {
       if (levelLower === "beginner") {
-        filePath = "/courses/Basic_java_course.txt";
+        return [
+          "/courses/Basic_java_course_Module 1.txt",
+          "/courses/Basic_java_course_Module 2.txt",
+          "/courses/Basic_java_course_Module 3.txt",
+          "/courses/Basic_java_course_Module 4.txt",
+          "/courses/Basic_java_course_Module 5.txt",
+          "/courses/Basic_java_course_Module 6.txt",
+        ];
       } else if (levelLower === "intermediate") {
-        filePath = "/courses/intermediate_java_course.txt";
+        return [
+          "/courses/intermediate_java_course_Module 1.txt",
+          "/courses/intermediate_java_course_Module 2.txt",
+          "/courses/intermediate_java_course_Module 3.txt",
+          "/courses/intermediate_java_course_Module 4.txt",
+          "/courses/intermediate_java_course_Module 5.txt",
+          "/courses/intermediate_java_course_Module 6.txt",
+        ];
       } else if (levelLower === "advanced") {
-        filePath = "/courses/advanced_java_course.txt";
+        return [
+          "/courses/advanced_java_course_Module1.txt",
+          "/courses/advanced_java_course_Module2.txt",
+          "/courses/advanced_java_course_Module3.txt",
+          "/courses/advanced_java_course_Module4.txt",
+          "/courses/advanced_java_course_Module5.txt",
+          "/courses/advanced_java_course_Module6.txt",
+        ];
       }
     } else if (courseLower === "python") {
       if (levelLower === "beginner") {
-        filePath = "/courses/Basic_python_course.txt";
+        return ["/courses/Basic_python_course.txt"];
       } else if (levelLower === "intermediate") {
-        filePath = "/courses/intermediate_python_course.txt";
+        return ["/courses/intermediate_python_course.txt"];
       } else if (levelLower === "advanced") {
-        filePath = "/courses/advanced_python_course.txt";
+        return ["/courses/advanced_python_course.txt"];
       }
     }
+    return [];
+  };
 
-    console.log("Fetching file:", filePath); // Debug log
+  const modulePaths = getModulePaths();
 
-    if (filePath) {
-      fetch(process.env.PUBLIC_URL + filePath) // Ensure proper path
-        .then((response) => {
-          if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-          return response.text();
-        })
-        .then((data) => {
-          console.log("Fetched content:", data); // Debug log
-          setContent(data);
-        })
-        .catch((error) => {
-          console.error("Error loading course content:", error);
-          setContent("Error loading content. Please try again later.");
-        });
-    } else {
-      setContent("No content available for this course and level.");
+  useEffect(() => {
+    if (modulePaths.length === 0 || moduleIndex >= modulePaths.length) {
+      setContent("No more content or invalid course/level.");
+      return;
     }
-  }, [course, level]);
+
+    const filePath = modulePaths[moduleIndex];
+    fetch(process.env.PUBLIC_URL + filePath)
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        return response.text();
+      })
+      .then((data) => {
+        setContent(data);
+      })
+      .catch((error) => {
+        console.error("Error loading course content:", error);
+        setContent("Error loading content. Please try again later.");
+      });
+  }, [moduleIndex]);
+
+  const handleNext = () => {
+    navigate("/module-check", {
+      state: {
+        course,
+        level,
+        moduleIndex,
+      },
+    });
+  };
 
   return (
     <div className="course-container">
@@ -59,11 +99,20 @@ function LessonPage() {
       <h2>Level: {level}</h2>
       <p>This is your starting point. Let's get learning! 🚀</p>
 
-      <div className="lesson-card">
-        <h3>Lesson 1: Introduction to {course}</h3>
-        <p>Start learning the basics of {course} at the {level} level.</p>
-        <pre className="lesson-content">{content}</pre>
-      </div>
+      {moduleIndex < modulePaths.length && (
+        <div className="lesson-card">
+          <h3>Lesson {moduleIndex + 1}: Module {moduleIndex + 1}</h3>
+          <p>Start learning the basics of {course} at the {level} level.</p>
+          <pre className="lesson-content">{content}</pre>
+          <button onClick={handleNext}>Take Quiz</button>
+        </div>
+      )}
+
+      {moduleIndex >= modulePaths.length && (
+        <div className="completion-message">
+          <h2>🎉 Congratulations! You've completed all modules.</h2>
+        </div>
+      )}
     </div>
   );
 }
