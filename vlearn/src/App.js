@@ -4,9 +4,9 @@ import HomePage from "./components/HomePage/HomePage";
 import CoursePage from "./components/CoursePage/CoursePage";
 import StartPage from "./components/StartPage/StartPage";
 import QuizPage from "./components/QuizPage/QuizPage"; 
-
 import AboutPage from "./components/AboutPage/AboutPage";
 import ContactPage from "./components/ContactPage/ContactPage";
+import LessonPage from "./components/LessonPage/LessonPage"; // Import LessonPage
 import Sidebar from "./components/Sidebar/Sidebar";
 import Navbar from "./components/Navbar/Navbar";
 import "./App.css";
@@ -16,24 +16,13 @@ function App() {
     <Router>
       <div className="app-container">
         <Routes>
-          {/* Home Page Route */}
           <Route path="/" element={<Layout><HomePage /></Layout>} />
-
-          {/* Course Page Route with Layout */}
           <Route path="/courses" element={<Layout><CoursePage /></Layout>} />
-
-          {/* Start Page Route */}
           <Route path="/start" element={<Layout><StartPage /></Layout>} />
-
-          {/* Quiz Page Route (No Navbar & Sidebar) */}
           <Route path="/quiz" element={<NoLayout><QuizPage /></NoLayout>} />
-
-          {/* Level Course Page Route (No Navbar & Sidebar) */}
-          {/* About Page Route with Layout */}
           <Route path="/about" element={<Layout><AboutPage /></Layout>} />
-
-          {/* Contact Page Route with Layout */}
           <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
+          <Route path="/lesson" element={<Layout><LessonPage /></Layout>} /> {/* New Lesson Page Route */}
         </Routes>
       </div>
     </Router>

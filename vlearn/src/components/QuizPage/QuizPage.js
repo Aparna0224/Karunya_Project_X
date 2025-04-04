@@ -4,18 +4,18 @@ import axios from "axios";
 import "./QuizPage.css";
 
 function QuizPage() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [selectedCourse, setSelectedCourse] = useState(searchParams.get("course") || "Java");
+  const [selectedCourse] = useState(searchParams.get("course") || "Java");
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [loading, setLoading] = useState(true);
   const [score, setScore] = useState(null);
   const [category, setCategory] = useState("");
-  const [courseContent, setCourseContent] = useState("");
+  const [grade, setGrade] = useState("");
 
-  // Fetch quiz questions when course changes
+  // Fetch quiz questions when component mounts
   useEffect(() => {
     setLoading(true);
     axios
@@ -35,42 +35,7 @@ function QuizPage() {
     setSelectedAnswers({ ...selectedAnswers, [questionIndex]: selectedOption });
   };
 
-  // Handle course selection change
-  const handleCourseChange = (event) => {
-    const newCourse = event.target.value;
-    setSelectedCourse(newCourse);
-    setSearchParams({ course: newCourse }); // Update URL params
-    setQuestions([]); // Reset quiz on course change
-    setScore(null);
-    setCategory("");
-    setCourseContent("");
-  };
-
-  // Fetch appropriate course material based on level & course
-  const fetchCourseContent = (level) => {
-    let filePath = "";
-
-    if (selectedCourse === "Java") {
-      if (level === "Beginner") filePath = "/courses/Basic_java_course.txt";
-      else if (level === "Intermediate") filePath = "/courses/intermediate_java_course.txt";
-      else filePath = "/courses/advanced_java_course.txt";
-    } else if (selectedCourse === "Python") {
-      if (level === "Beginner") filePath = "/courses/Basic_python_course.txt";
-      else if (level === "Intermediate") filePath = "/courses/intermediate_python_course.txt";
-      else filePath = "/courses/advanced_python_course.txt";
-    }
-
-    axios
-      .get(filePath)
-      .then((response) => {
-        setCourseContent(response.data);
-      })
-      .catch((error) => {
-        console.error("Error loading course content:", error);
-      });
-  };
-
-  // Calculate score and determine skill level
+  // Handle submit
   const handleSubmit = () => {
     let correctCount = 0;
     questions.forEach((question, index) => {
@@ -79,20 +44,32 @@ function QuizPage() {
 
     setScore(correctCount);
 
-    let level = correctCount <= 4 ? "Beginner" : correctCount <= 7 ? "Intermediate" : "Advanced";
-    setCategory(level);
-    fetchCourseContent(level);
-  };
+    const level =
+      correctCount <= 4
+        ? "Beginner"
+        : correctCount <= 7
+        ? "Intermediate"
+        : "Advanced";
 
-  // Scroll to course content when score is available
-  useEffect(() => {
-    if (score !== null) {
-      const courseContentSection = document.getElementById("course-content-section");
-      if (courseContentSection) {
-        courseContentSection.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [score]);
+    setCategory(level);
+
+    // Set grade based on performance
+    const gradeCalc = (score) => {
+      if (score === questions.length) return "A+";
+      if (score >= questions.length * 0.8) return "A";
+      if (score >= questions.length * 0.6) return "B";
+      if (score >= questions.length * 0.4) return "C";
+      return "D";
+    };
+
+    const finalGrade = gradeCalc(correctCount);
+    setGrade(finalGrade);
+
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      navigate(`/lesson?course=${selectedCourse}&level=${level}`);
+    }, 3000);
+  };
 
   return (
     <div className="quiz-container">
@@ -127,13 +104,13 @@ function QuizPage() {
           </button>
 
           {score !== null && (
-            <div id="course-content-section" className="score-section">
+            <div className="score-section">
               <h3>Your Score: {score} / {questions.length}</h3>
               <p className={`category ${category.toLowerCase()}`}>
                 Skill Level: {category}
               </p>
-              <h3>Course Material</h3>
-              <pre className="course-content">{courseContent || "Loading course content..."}</pre>
+              <p className="grade">🎓 Grade: <strong>{grade}</strong></p>
+              <p>Redirecting you to the {category} course in 3 seconds...</p>
             </div>
           )}
         </div>
